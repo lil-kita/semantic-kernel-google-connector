@@ -5,7 +5,7 @@
     <AssemblyName>Microsoft.SemanticKernel.Connectors.Google</AssemblyName>
     <RootNamespace>$(AssemblyName)</RootNamespace>
     <TargetFrameworks>net10.0;net8.0;netstandard2.0</TargetFrameworks>
-    <VersionSuffix>alpha</VersionSuffix>
+    <VersionSuffix>alpha.1</VersionSuffix>
     <NoWarn>$(NoWarn);SKEXP0001</NoWarn>
   </PropertyGroup>
 
@@ -15,13 +15,31 @@
 
   <PropertyGroup>
     <!-- NuGet Package Settings -->
-    <Title>Semantic Kernel - Google Connectors</Title>
-    <Description>Semantic Kernel connectors for Google generation platforms (GoogleAI/VertexAI). Contains generation and embedding services.</Description>
+    <PackageId>Community.SemanticKernel.Connectors.Google</PackageId>
+    <Title>Community Semantic Kernel - Google Connectors (Unofficial)</Title>
+    <Authors>Microsoft; lil-kita</Authors>
+    <Description>Unofficial fork of the Semantic Kernel Google connectors, based on upstream 1.81.0-alpha. Fixes Gemini function-response messages to use the supported user role. Contains GoogleAI/VertexAI generation and embedding services.</Description>
+    <PackageProjectUrl>https://github.com/lil-kita/semantic-kernel-google-connector</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/lil-kita/semantic-kernel-google-connector</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>Serialize Gemini tool results with the user role while preserving function-response payloads and internal tool roles.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="$(RepoRoot)/dotnet/nuget/NUGET.md" />
+    <None Include="README.md" Pack="true" PackagePath="." />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)' != 'Publish'">
     <ProjectReference Include="..\..\SemanticKernel.Abstractions\SemanticKernel.Abstractions.csproj" />
     <ProjectReference Include="..\..\SemanticKernel.Core\SemanticKernel.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)' == 'Publish'">
+    <PackageVersion Update="Microsoft.SemanticKernel.Abstractions" Version="1.81.0" />
+    <PackageVersion Update="Microsoft.SemanticKernel.Core" Version="1.81.0" />
+    <PackageReference Include="Microsoft.SemanticKernel.Abstractions" />
+    <PackageReference Include="Microsoft.SemanticKernel.Core" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net8.0' or '$(TargetFramework)' == 'net9.0' or '$(TargetFramework)' == 'net10.0'">
